@@ -1,0 +1,23 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+# ### Step 2 : Load the csv/excel file into pandas dataframe and clean the data
+df = pd.read_csv("../data/breast_cancer.csv") df = df.iloc[:, :-1]
+df.head()
+# ### Step 3 : Create the Feature Matrix and Target Vector and check the first 5 rows
+x = df.iloc[:, 2:].values y = df.diagnosis.values
+print(x[:2]) print(y[:5])
+# ### Step 4 : Split the data into training set and test set
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2)
+# ### Step 5 : Instantiate a decision tree model and train the model
+from sklearn.tree import DecisionTreeClassifier
+dt_classifier = DecisionTreeClassifier() dt_classifier.fit(x_train, y_train)
+ # ### Step 6 : Use the model to predict the class labels for new data
+ 
+   predictions = dt_classifier.predict(x_test) prob_predictions = dt_classifier.predict_proba(x_test)
+print(predictions) print(prob_predictions)
+# ### Step 7 : Calculate Accuracy score and confusion matrix for train and test data from sklearn.metrics import accuracy_score, confusion_matrix
+print("Training accuracy Score is : ", accuracy_score(y_train, dt_classifier.predict(x_train))) print("Testing accuracy Score is : ", accuracy_score(y_test, dt_classifier.predict(x_test)))
+print("Training Confusion Matrix is : \n", confusion_matrix(y_train, dt_classifier.predict(x_train)))
+print("Testing Confusion Matrix is : \n", confusion_matrix(y_test, dt_classifier.predict(x_test)))
