@@ -1,0 +1,31 @@
+import pandas as pd
+df = pd.read_csv('ch1ex1.csv') points = df.values
+from sklearn.cluster import KMeans model = KMeans(n_clusters=3) model.fit(points)
+labels = model.predict(points) importmatplotlib.pyplot as plt
+Step 2: Assign column 0 of points to xs, and column 1 of points to ys xs = points[:,0]
+              ys = points[:,1]
+plt.scatter(xs, ys, c=labels) plt.show()
+xs and ys
+    Step 3: Make a scatter plot of
+, specifying the
+c=labels
+keyword arguments
+ to color the points by their cluster label. You'll see that KMeans has done a good job
+ of identifying the clusters!
+    #This is great, but let's go one step further, and add the cluster centres (the
+ "centroids") to the scatter plot.
+ 
+       Step 3: Obtain the coordinates of the centroids using the
+.
+centroids = model.cluster_centers_
+Assign them to
+ Step 4: Assign column
+ centroids_y
+ centroids_x = centroids[:,0] centroids_y = centroids[:,1]
+ Step 5: In a single cell, create two scatter plots (this will show the two on top of one
+ another). Call `plt.show()` just once, at the end.
+ Firstly, the make the scatter plot you made above. Secondly, make a scatter plot of `centroids_x` and `centroids_y`, using `'X'` (a cross) as a marker by specifying the
+ `marker` parameter. Set the size of the markers to be `200` using `s=200`.
+ plt.scatter(xs, ys, c=labels)
+ plt.scatter(centroids_x, centroids_y, marker='X', s=200)
+ plt.show()
