@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt import sklearn as sk
+# ### Step 2 : Load the csv/excel file into pandas dataframeand clean the data
+df = pd.read_csv("breast_cancer.csv") df = df.iloc[:, :-1]
+df.shape()
+df.head()
+# ### Step 3 : Create the Feature Matrix and Target Vector and check the first 5 rows
+x = df.iloc[:, 2:].values y = df.diagnosis.values
+print(x[:2]) print(y[:5])
+# ### Step 4 : Split the data into training set and test set fromsklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2,random_state=500)
+x_train.shape #(455,30)
+x_test.shape#(114, 30)
+y_train.shape y_test.shape
+(y_train == 'M').sum()
+(y_train=='B').sum()
+  # Baseline model, accuracy, confusion_matrix,
+classification_report
+ 
+   # ### Step 5 : Instantiate a Guassian Naive Bayes model and train the model
+278/len(y_train) # Baseline model of accuracy =(more number of occurrences)/total data elements
+from sklearn.metrics import accuracy_score, confusion_matrix,classification_report baseline_pred=["B"] *len(y_train) # baseline will have beningn for everything Baseline model of accuracy :0.610989010989011 accuracy_score(y_train,baseline_pred) # takes actual and predicted as 2 arguments confusion_matrix(y_train,baseline_pred)# takes actual and predicted as 2 arguments
+from sklearn.naive_bayes import GaussianNB nb_model=GaussianNB() nb_model.fit(x_train,y_train)
+print(x_train) nb_model.score(x_train,y_train) nb_model.score(x_test,y_test)
+#confusion_matrix for training data
+confusion_matrix(y_train,nb_model.predict(x_train))
+Training Confusion Matrix: array([[269, 9],
+[ 22, 155]], dtype=int64)
+#confusion_matrix for test data confusion_matrix(y_test,nb_model.predict(x_test))
+Testing Confusion Matrix: array([[78, 1],
+[ 2, 33]], dtype=int64)
+print(classification_report(y_train,nb_model.predict(x_train)))
+precision recall f1-score support
+B 0.92 M 0.95
+avg / total
+0.97 0.95 278 0.88 0.91 177
+0.93 0.93 0.93 455
+ 
+   print(classification_report(y_test,nb_model.predict(x_test)))
